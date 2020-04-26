@@ -1,18 +1,18 @@
 module.exports = {
   /**
-     * 默认情况下，ESLint会在所有父级目录里寻找配置文件，一直到根目录。
-     * 为了将ESLint限制在一个特定的项目，设置root: true；
-     * ESLint一旦发现配置文件中有 root: true，就会停止在父级目录中寻找。
-     */
+   * 默认情况下，ESLint会在所有父级目录里寻找配置文件，一直到根目录。
+   * 为了将ESLint限制在一个特定的项目，设置root: true；
+   * ESLint一旦发现配置文件中有 root: true，就会停止在父级目录中寻找。
+   */
   root: true,
   // 指定解析器
   // babel-ESLint: 一个对Babel解析器的包装，使其能够与ESLint兼容。
   // parser: 'babel-eslint',
   // 设置解析器能帮助ESLint确定什么是解析错误。
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: "babel-eslint",
     // 指定js版本。语法上的支持
-    ecmaVersion: 6
+    ecmaVersion: 6,
   },
   // 脚本在执行期间访问的额外的全局变量
   // globals: {},
@@ -21,7 +21,7 @@ module.exports = {
     // 一个环境定义了一组预定义的全局变量。
     // 会自动开启es6语法支持。
     es6: true,
-    node: true
+    node: true,
   },
   // 使用第三方插件。全局安装的 ESLint 实例只能使用全局安装的ESLint插件。本地同理，不支持混用。
   // plugins: [
@@ -37,10 +37,9 @@ module.exports = {
     // plugin可以省略包名的前缀 eslint-plugin-
     // 'plugin:vue/essential',
     // '@vue/standard',
-    'eslint:recommended'
+    "eslint:recommended",
     // 也可以指定另一个基本配置文件的绝对路径或相对路径
   ],
-
 
   /**
    * 每个规则有【3】个错误级别。
@@ -54,104 +53,107 @@ module.exports = {
      * 这些规则与JavaScript代码中可能的错误或逻辑错误有关。
      */
     // 强制"for"循环中更新子句的计算器朝着正确的方向移动
-    'for-direction': 2,
+    "for-direction": 2,
     // 禁止function定义中出现重名参数
-    'no-dupe-args': 2,
+    "no-dupe-args": 2,
     // 禁止对象字面量中出现重复的key
-    'no-dupe-keys': 2,
+    "no-dupe-keys": 2,
     // 禁止出现重复的case标签
-    'no-duplicate-case': 2,
+    "no-duplicate-case": 2,
     // 禁止对catch子句的参数重新赋值
-    'no-ex-assign': 2,
+    "no-ex-assign": 2,
     // 禁止对关系运算符的左操作数使用否定操作符
-    'no-unsafe-negation': 2,
+    "no-unsafe-negation": 2,
     // 禁止出现令人困惑的多行表达式
-    'no-unexpected-multiline': 2,
+    "no-unexpected-multiline": 2,
     // 禁止在return、throw、continue、break语句之后出现不可达代码
-    'no-unreachable': 2,
+    "no-unreachable": 2,
     // 禁止在finally语句块中出现控制流语句
-    'no-unsafe-finally': 2,
+    "no-unsafe-finally": 2,
     // 要求使用isNaN()检查NaN
-    'use-isnan': 2,
+    "use-isnan": 2,
     // 强制typeof表达式与有效的字符串进行比较
-    'valid-typeof': 2,
+    "valid-typeof": 2,
     // 还可以写表达式，厉害了~
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
+    "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
 
     /**
      * 【================================================ Best Practices ================================================】
      * 这些规则是关于最佳实践的，帮助你避免一些问题。
      */
     // 强制 getter 和 setter在对象中成对出现
-    'accessor-pairs': 2,
+    "accessor-pairs": 2,
     // 强制所有控制语句使用一致的括号风格
-    'curly': [2, 'multi-line'],
+    curly: [2, "multi-line"],
     // 强制在点号之前和之后一致的换行
-    'dot-location': [2, 'property'],
+    "dot-location": [2, "property"],
     // 要求使用 ===和 !==
-    'eqeqeq': [2, 'allow-null'],
+    eqeqeq: [2, "allow-null"],
     // 禁用arguments.caller 或 arguments.callee
-    'no-caller': 2,
+    "no-caller": 2,
     // 禁止使用空解构模式
-    'no-empty-pattern': 2,
+    "no-empty-pattern": 2,
     // 禁止eval()
-    'no-eval': 2,
+    "no-eval": 2,
     // 禁止使用类似eval()的方法
-    'no-implied-eval': 2,
+    "no-implied-eval": 2,
     // 禁止扩展原生类型
-    'no-extend-native': 2,
+    "no-extend-native": 2,
     // 禁止不必要的.bind()调用
-    'no-extra-bind': 2,
+    "no-extra-bind": 2,
     // 禁止case语句落空
-    'no-fallthrough': 2,
+    "no-fallthrough": 2,
     // 禁止数字字面量中使用前导和末尾小数点
-    'no-floating-decimal': 2,
+    "no-floating-decimal": 2,
     // 禁用__iterator__属性
-    'no-iterator': 2,
+    "no-iterator": 2,
     // 禁用标签语句
-    'no-labels': [2, {
-      'allowLoop': false,
-      'allowSwitch': false
-    }],
+    "no-labels": [
+      2,
+      {
+        allowLoop: false,
+        allowSwitch: false,
+      },
+    ],
     // 禁用不必要嵌套块
-    'no-lone-blocks': 2,
+    "no-lone-blocks": 2,
     // 禁止使用多个空格
-    'no-multi-spaces': 2,
+    "no-multi-spaces": 2,
     // 禁止使用多行字符串
-    'no-multi-str': 2,
+    "no-multi-str": 2,
     // 禁止对String，Number 和 Boolean 使用new操作符
-    'no-new-wrappers': 2,
+    "no-new-wrappers": 2,
     // 禁用八进制字面量
-    'no-octal': 2,
+    "no-octal": 2,
     // 禁止在字符串中使用八进制转义序列
-    'no-octal-escape': 2,
+    "no-octal-escape": 2,
     // 禁止使用__proto__属性
-    'no-proto': 2,
+    "no-proto": 2,
     // 禁止多次声明同一变量
-    'no-redeclare': 2,
+    "no-redeclare": 2,
     // 禁止在return语句中使用赋值语句
-    'no-return-assign': [2, 'except-parens'],
+    "no-return-assign": [2, "except-parens"],
     // 禁止自我赋值
-    'no-self-assign': 2,
+    "no-self-assign": 2,
     // 禁止自我比较
-    'no-self-compare': 2,
+    "no-self-compare": 2,
     // 禁用逗号操作符
-    'no-sequences': 2,
+    // 'no-sequences': 2,
     // 禁止抛出异常字面量
-    'no-throw-literal': 2,
+    "no-throw-literal": 2,
     // 禁止一成不变的循环条件
-    'no-unmodified-loop-condition': 2,
+    "no-unmodified-loop-condition": 2,
     // 禁止不必要的.call()和.apply()
-    'no-useless-call': 2,
+    "no-useless-call": 2,
     // 禁止不必要的转义字符
-    'no-useless-escape': 2,
+    "no-useless-escape": 2,
     // 禁用with语句
-    'no-with': 2,
+    "no-with": 2,
     // 要求IIFE使用括号括起来
-    'wrap-iife': 2,
+    "wrap-iife": 2,
     // 要求或禁止Yoda条件。 if("red" === color) { //字面量在前，变量在后 }
-    'yoda': [2, 'never'],   //  比较绝不能是Yoda条件（需要变量在前，字面量在后）
+    yoda: [2, "never"], //  比较绝不能是Yoda条件（需要变量在前，字面量在后）
 
     /**
      * 【================================================ ECMAScript 6 ================================================】
@@ -207,7 +209,7 @@ module.exports = {
     //   'properties': 'always'
     // }],
     // // 要求或禁止末尾逗号
-    'comma-dangle': [2, 'never'],
+    // 'comma-dangle': [2, 'never'],
     // // 强制在逗号前后使用一致的空格
     // 'comma-spacing': [2, {
     //   'before': false,
@@ -224,10 +226,13 @@ module.exports = {
     // // 强制在JSX属性中一致地使用双引号或单引号
     // 'jsx-quotes': [2, 'prefer-single'],
     // 要求构造函数首字母大写
-    'new-cap': [2, {
-      'newIsCap': true,
-      'capIsNew': false
-    }],
+    "new-cap": [
+      2,
+      {
+        newIsCap: true,
+        capIsNew: false,
+      },
+    ],
     // // 要求构造无参构造函数时有圆括号
     // 'new-parens': 2,
     // // 禁用Array构造函数
@@ -271,7 +276,7 @@ module.exports = {
     // //   'allowTemplateLiterals': true
     // // }],
     // // 禁止使用分号代替ASI(自动分号插入)
-    'semi': [2, 'always'],
+    semi: [2, "always"],
     // // 强制分号之前和之后使用一致的空格
     // 'semi-spacing': [2, {
     //   'before': false,
@@ -315,7 +320,7 @@ module.exports = {
     // // 禁止对__dirname和__filename进行字符串连接
     // 'no-path-concat': 1,
     // // 强制在function的左括号之前使用一致的空格
-    // 'space-before-function-paren': [2, 'never'], 
+    // 'space-before-function-paren': [2, 'never'],
 
     /**
      * 【================================================ Possible Errors ================================================】
@@ -351,26 +356,29 @@ module.exports = {
      * 这些规则与变量声明有关。
      */
     // 禁止删除变量
-    'no-delete-var': 2,
+    "no-delete-var": 2,
     // 不允许标签与变量同名
-    'no-label-var': 2,
+    "no-label-var": 2,
     // 禁止将标识符定义为受限的名字
-    'no-shadow-restricted-names': 2,
+    "no-shadow-restricted-names": 2,
     // 禁止未声明的变量，除非它们在/*global */注释中被提到
-    'no-undef': 2,
+    "no-undef": 2,
     // 禁止将变量初始化为undefined
-    'no-undef-init': 2,
+    "no-undef-init": 2,
     // 禁止出现未使用的变量
-    'no-unused-vars': [2, {
-      'var': 'all',
-      'args': 'none'
-    }],
+    "no-unused-vars": [
+      2,
+      {
+        var: "all",
+        args: "none",
+      },
+    ],
 
     /**
      * 【================================================ 配置定义在插件中的规则 ================================================】
      * 格式： 插件名/规则ID
      */
-    // 
+    //
     // 'vue/no-parsing-error': [2, { 'x-invalid-end-tag': false }]
-  }
-}
+  },
+};
