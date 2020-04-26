@@ -12,7 +12,7 @@ module.exports = {
   parserOptions: {
     parser: "babel-eslint",
     // 指定js版本。语法上的支持
-    ecmaVersion: 6,
+    ecmaVersion: 8,
   },
   // 脚本在执行期间访问的额外的全局变量
   // globals: {},
