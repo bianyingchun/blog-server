@@ -3,7 +3,7 @@ const helmet = require("koa-helmet");
 const cors = require("koa2-cors");
 const routers = require("../routers");
 const middlewares = (app) => {
-  // 跨域
+ 
   // 错误处理中间件
   app.use(async (ctx, next) => {
     try {
@@ -15,6 +15,7 @@ const middlewares = (app) => {
       ctx.app.emit("error", error); // 触发应用层级错误事件
     }
   });
+   // 跨域
   app.use(
     cors({
       origin: function (ctx) {
