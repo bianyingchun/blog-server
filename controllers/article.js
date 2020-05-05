@@ -21,7 +21,7 @@ const deleteArticle = async (id) => {
 
 //查找
 const getArticleById = async (id) => {
-    let res = await Article.findById(id).populate('tag');
+    let res = await Article.findById(id).populate('tags');
     if (res) {
         res.meta.views += 1;
         res = await res.save();
@@ -53,13 +53,133 @@ const likeArticle = async (_id) => {
 };
 
 //分页获取
-const getArtiles = async (opts) => {
+const getArtilesByPage = async (opts) => {
+    const {
+        current_page = 1,
+        page_size = 50,
+        keywords = '',
+        state = 1,
+        publish = 1, tags, type, date, hot } = opts;
+    const options = {
+        sort: { create_at: -1 },
+        page: Number(current_page),
+        limit: Number(page_size),
+        populate: ['tags'],
+        select: '-content'
+    };
+    const querys = {};
+    if (keywords) {
+        const keywordsReg = new RegExp(keywords, 'i');
+        querys['$or'] = [
+            { 'title': keywordsReg },
+            { 'content': keywordsReg },
+            { 'desc': keywordsReg }
+        ];
+    }
+    // 按照state查询
+    if (['1', '2'].includes(state)) {
+        querys.state = state;
+    }
+
+    // 按照公开程度查询
+    if (['1', '2'].includes(publish)) {
+        querys.publish = publish;
+    }
+
+    // 按照类型程度查询
+    if (['1', '2', '3'].includes(type)) {
+        querys.type = type;
+    }
+
+    // 按热度排行
+    if (hot) {
+        options.sort = {
+            'meta.views': -1,
+            'meta.likes': -1,
+            'meta.comments': -1
+        };
+    }
+    // 时间查询
+    if (date) {
+        const getDate = new Date(date);
+        if (!Object.is(getDate.toString(), 'Invalid Date')) {
+            querys.create_at = {
+                "$gte": new Date((getDate / 1000 - 60 * 60 * 8) * 1000),
+                "$lt": new Date((getDate / 1000 + 60 * 60 * 16) * 1000)
+            };
+        }
+    }
+    if (tags) {
+        querys.tags = tags;
+    }
+    const result = await Article.paginate(querys, options);
+    if (result) {
+        return {
+            pagination: {
+                total: result.total,
+                current_page: result.page,
+                total_page: result.pages,
+                page_size: result.limit
+            },
+            list: result.docs
+        };
+    }
+    return false;
+
+};
+
+const getArticlesByGroup = async () => {
+    const articles = await Article.aggregate([
+        { $match: { state: 1, publish: 1 } },
+        {
+            $project: {
+                year: { $year: '$create_at' },
+                month: { $month: '$create_at' },
+                title: 1,
+                create_at: 1
+            }
+        },
+        {
+            $group: {
+                _id: {
+                    year: '$year',
+                    month: '$month'
+                },
+                article: {
+                    $push: {
+                        title: '$title',
+                        _id: '$_id',
+                        create_at: '$create_at'
+                    }
+                }
+            }
+        }
+    ]);
+    if (articles) {
+        let yearList = [...new Set(articles.map(item => item._id.year))].map(item => {
+            let monthList = [];
+            articles.forEach(n => {
+                // 同一年
+                if (n._id.year === item) {
+                    monthList.push({ month: n._id.month, articleList: n.article.reverse() });
+                }
+            });
+            return { year: item, monthList };
+        });
+        return yearList;
+    }
+    else {
+        return [];
+    }
 
 };
 module.exports = {
     addArticle,
     editArticle,
     deleteArticle,
+    likeArticle,
     getArticleById,
-    getArtiles
+    getArtilesByPage,
+    changeArticleStatus,
+    getArticlesByGroup
 };

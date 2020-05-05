@@ -14,7 +14,7 @@ const articleSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    tag: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
+    tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
     content: {
         type: String,
         required: true
@@ -49,7 +49,7 @@ const articleSchema = new mongoose.Schema({
     },
     meta: {
         views: { type: Number, default: 0 },
-        favs: { type: Number, default: 0 },
+        likes: { type: Number, default: 0 },
         comments: { type: Number, default: 0 }
     }
 });

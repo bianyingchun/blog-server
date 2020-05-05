@@ -2,20 +2,21 @@ const bodyParser = require("koa-bodyparser");
 const helmet = require("koa-helmet");
 const cors = require("koa2-cors");
 const routers = require("../routers");
+const { resError } = require('../util/resHandle');
 const middlewares = (app) => {
- 
+
   // 错误处理中间件
   app.use(async (ctx, next) => {
     try {
       await next();
-    } catch (error) {
+    } catch (err) {
       // 响应用户
-      ctx.status = error.statusCode || error.status || 500;
-      ctx.body = error.message;
-      ctx.app.emit("error", error); // 触发应用层级错误事件
+      ctx.status = err.statusCode || err.status || 500;
+      resError({ ctx, message: err.message, err });
+      ctx.app.emit("error", err); // 触发应用层级错误事件
     }
   });
-   // 跨域
+  // 跨域
   app.use(
     cors({
       origin: function (ctx) {
