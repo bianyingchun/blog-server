@@ -1,14 +1,17 @@
 const util = {};
 const geoip = require('geoip-lite');
 util.parseIp = (req) => {
-    const ip = (
-        req.headers['x-forwarded-for'] ||
+    var ip = req.headers['x-forwarded-for'] ||
         req.headers['x-real-ip'] ||
+        req.ip ||
         req.connection.remoteAddress ||
         req.socket.remoteAddress ||
-        req.connection.socket.remoteAddress ||
-        req.ip ||
-        req.ips[0]).replace('::ffff:', '') || '14.215.177.38';
+        req.connection.socket.remoteAddress || '';
+    if (ip.split(',').length > 0) {
+        ip = ip.split(',')[0];
+    }
+    ip = ip.substr(ip.lastIndexOf(':') + 1, ip.length);
+    ip = ip === '1' ? '112.65.1.79' : ip;
     const ip_location = geoip.lookup(ip);
     const result = { ip: ip };
     if (ip_location) {
@@ -22,7 +25,4 @@ util.parseIp = (req) => {
     return result;
 };
 
-util.check_params = (ctx, params) => {
-    
-}
 module.exports = util;

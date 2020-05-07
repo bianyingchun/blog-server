@@ -19,9 +19,9 @@ const sendMailToAdminAndTargetUser = (comment) => {
     text: `来自 ${comment.author.name} 的留言：${comment.content}`,
     html: `<p> 来自 ${comment.author.name} 的留言：${
       comment.content
-    }</p><br><a href="${
+      }</p><br><a href="${
       comment.permalink || "javascript:;"
-    }" target="_blank">[ 点击查看 ]</a>`,
+      }" target="_blank">[ 点击查看 ]</a>`,
   });
 };
 
@@ -32,8 +32,10 @@ router.post(
     let { post_id, content, author } = ctx.request.body;
     content = xss(content);
     try {
+
       let comment = await addComment(ctx, { post_id, content, author });
-      sendMailToAdminAndTargetUser(comment);
+      // 测试发送可行，暂时关闭
+      // sendMailToAdminAndTargetUser(comment);
       resSuccess({ ctx, message: "添加评论成功" });
     } catch (error) {
       error.message = "添加评论失败";

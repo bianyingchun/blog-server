@@ -3,7 +3,7 @@ const Comment = require("../models/comment");
 const util = require("../util");
 
 const addComment = async (ctx, comment) => {
-  const ipInfo = util.parseIp(ctx.req);
+  const ipInfo = util.parseIp(ctx.request);
   console.log("ipInfo", ipInfo);
   comment = Object.assign(comment, ipInfo);
   comment.agent = ctx.header["user-agent"] || comment.agent;
@@ -79,7 +79,7 @@ const getComment = async (opts = {}) => {
         total_page: comments.pages,
         per_page: options.limit,
       },
-      data: comments.docs,
+      list: comments.docs,
     };
   }
   return result;

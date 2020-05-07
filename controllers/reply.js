@@ -68,7 +68,7 @@ const getReplyByCid = async (opts = {}) => {
                 total_page: replys.pages,
                 per_page: options.limit
             },
-            data: replys.docs
+            list: replys.docs
         };
     }
     return result;
