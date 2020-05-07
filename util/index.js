@@ -22,5 +22,7 @@ util.parseIp = (req) => {
     return result;
 };
 
-
+util.check_params = (ctx, params) => {
+    
+}
 module.exports = util;

@@ -3,7 +3,7 @@ const Reply = require('../models/reply');
 const Comment = require('../models/comment');
 
 const addReply = async (ctx, reply) => {
-    const ipInfo = util.parseIp(ctx.req);
+    const ipInfo = util.parseIp(ctx.request);
     reply = Object.assign(reply, ipInfo);
     reply.agent = ctx.header['user-agent'] || reply.agent;
     // 发布评论回复
