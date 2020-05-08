@@ -27,7 +27,7 @@ const replySchema = new mongoose.Schema({
   },
   to: {
     // 头像
-    gravatar: { type: String, default: "" },
+    gravatar: { type: String },
     // 用户名
     name: { type: String },
     // 邮箱

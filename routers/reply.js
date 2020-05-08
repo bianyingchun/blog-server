@@ -14,10 +14,13 @@ const {
 const { sendMail } = require("../util/email");
 
 const sendMailToAdminAndTargetUser = (reply) => {
-  let str = `2093213209@qq.com, ${reply.comment.author.email}`;
-  if (reply.to && reply.to.email) {
-    str += `, ${reply.to.email}`;
+  let str = "2093213209@qq.com";
+  if (reply.comment && reply.comment.author.email) {
+    str += `,` + reply.comment.author.email;
   }
+  // if (reply.to && reply.to.email) {
+  //   str += `, ${reply.to.email}`;
+  // }
   sendMail({
     to: str,
     subject: "你在blog.bianyc.me有新的评论回复",
@@ -30,11 +33,12 @@ router.post(
   "/add",
   verifyParmas(["post_id", "cid", "content", "from"]),
   async (ctx, next) => {
-    let { info } = ctx.request.body;
+    let info = ctx.request.body;
     info.content = xss(info.content);
     try {
       let reply = await addReply(ctx, info);
-      sendMailToAdminAndTargetUser(reply);
+      // TODO 测试成功,暂时关闭
+      // sendMailToAdminAndTargetUser(reply);
       delete reply.comment;
       resSuccess({ ctx, message: "回复成功", result: reply });
     } catch (error) {
