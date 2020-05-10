@@ -7,6 +7,8 @@ const commentSchema = new mongoose.Schema({
     ref: "article",
     require: true,
   },
+  // 文章标题
+  post_title: { type: String },
   pid: { type: Number, default: 0 },
   content: { type: String, required: true },
   likes: { type: Number, default: 0 },

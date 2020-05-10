@@ -33,7 +33,7 @@ const likeReply = async (id) => {
     return await Reply.findByIdAndUpdate(id, { $inc: { 'likes': 1 } }, { new: true });
 };
 
-const getReplyByCid = async (opts = {}) => {
+const getReply = async (opts = {}) => {
     let { cid, sort = -1, current_page = 1, page_size = 10, keyword = '', state } = opts;
     let result = {};
     const options = {
@@ -46,7 +46,10 @@ const getReplyByCid = async (opts = {}) => {
     } else if (sort === 2) {
         options.sort = { likes: -1 };
     }
-    const querys = { cid };
+    const querys = {};
+    if (cid) {
+        querys.cid = cid;
+    }
     if (state && ['0', '1', '2'].includes(state)) {
         querys.state = state;
     }
@@ -83,6 +86,6 @@ module.exports = {
     deleteReply,
     editReply,
     likeReply,
-    getReplyByCid,
+    getReply,
     changeReplyStatus
 };

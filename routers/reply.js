@@ -8,7 +8,7 @@ const {
   deleteReply,
   editReply,
   likeReply,
-  getReplyByCid,
+  getReply,
   changeReplyStatus,
 } = require("../controllers/reply");
 const { sendMail } = require("../util/email");
@@ -91,11 +91,11 @@ router.post("/edit", async (ctx, next) => {
 
 // 根据评论id获取回复
 router.get("/get", async (ctx, next) => {
-  if (!ctx.query.cid) {
-    return ctx.throw(500, "参数cid缺失");
-  }
+  // if (!ctx.query.cid) {
+  //   return ctx.throw(500, "参数cid缺失");
+  // }
   try {
-    const res = await getReplyByCid(ctx.query);
+    const res = await getReply(ctx.query);
     resSuccess({ ctx, message: "获取回复成功", result: res });
   } catch (err) {
     err.message = "获取回复失败";

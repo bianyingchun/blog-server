@@ -4,12 +4,12 @@ const util = require("../util");
 
 const addComment = async (ctx, comment) => {
   const ipInfo = util.parseIp(ctx.request);
-  console.log("ipInfo", ipInfo);
   comment = Object.assign(comment, ipInfo);
   comment.agent = ctx.header["user-agent"] || comment.agent;
-  await Article.findByIdAndUpdate(comment.post_id, {
+  const article = await Article.findByIdAndUpdate(comment.post_id, {
     $inc: { "meta.comments": 1 },
-  });
+  }, { new: true });
+  comment.post_title = article.title;
   return await new Comment(comment).save();
 };
 
