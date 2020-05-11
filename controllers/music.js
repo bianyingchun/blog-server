@@ -4,7 +4,7 @@ const Music = require('../models/music');
 const { uploadFile, upToQiniu, removeTemFile } = require('../utils/upload');
 
 // 添加音乐
-const putMusic = async (ctx, obj) => {
+const addMusic = async (ctx, obj) => {
     return await (new Music(obj)).save();
 };
 
@@ -33,7 +33,7 @@ const getMusic = async (opts = {}) => {
     return await Music.find(querys);
 };
 // 上传海报
-const upload = async (ctx) => {
+const uploadPoster = async (ctx) => {
     const serverPath = path.join(__dirname, '../../uploadtemp/');
     // 获取上存图片
     const result = await uploadFile(ctx, {
@@ -49,9 +49,9 @@ const upload = async (ctx) => {
 };
 
 module.exports = {
-    putMusic,
+    addMusic,
     delectMusic,
     editeMusic,
     getMusic,
-    upload
+    uploadPoster
 };
