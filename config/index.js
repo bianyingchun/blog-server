@@ -12,11 +12,11 @@ const EMAIL = {
 };
 
 const QINIU = {
-  accessKey: 'your_qn_accessKey',
-  secretKey: 'your_qn_secretKey',
-  bucket: 'naice',
+  accessKey: 'dQf57N3J2HuG3TR9MtbEu--MXYJRYLxXJjppVjxy',
+  secretKey: 'Xq77ZZXNCy6Be4efpsZ9XM2tLVXl7D5T-aPCrAVa',
+  bucket: 'bianyc',
   origin: 'xxxxxx',
-  uploadURL: 'your_qn_uploadURL'
+  uploadURL: 'qa68vnk5w.bkt.clouddn.com'
 };
 
 module.exports = {
