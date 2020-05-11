@@ -1,7 +1,5 @@
-'use strict';
-const path = require('path');
 const Music = require('../models/music');
-const { uploadFile, upToQiniu, removeTemFile } = require('../utils/upload');
+const { upToQiniu, removeTemFile } = require('../util/upload');
 
 // 添加音乐
 const addMusic = async (ctx, obj) => {
@@ -33,18 +31,12 @@ const getMusic = async (opts = {}) => {
     return await Music.find(querys);
 };
 // 上传海报
-const uploadPoster = async (ctx) => {
-    const serverPath = path.join(__dirname, '../../uploadtemp/');
-    // 获取上存图片
-    const result = await uploadFile(ctx, {
-        fileType: 'poster',
-        path: serverPath
-    });
-    const imgPath = path.join(serverPath, result.imgPath);
+const uploadPosterCDN = async (file) => {
     // 上传到七牛
-    const qiniu = await upToQiniu(imgPath, result.imgKey);
+    const { path, filename } = file;
+    const qiniu = await upToQiniu(path, filename);
     // 上存到七牛之后 删除原来的缓存文件
-    removeTemFile(imgPath);
+    removeTemFile(path);
     return qiniu;
 };
 
@@ -53,5 +45,5 @@ module.exports = {
     delectMusic,
     editeMusic,
     getMusic,
-    uploadPoster
+    uploadPosterCDN
 };

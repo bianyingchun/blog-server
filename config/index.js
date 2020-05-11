@@ -11,8 +11,17 @@ const EMAIL = {
   PASSWORD: 'OEMPMEEHDHBDRDGF'// IMAP/SMTP授权码，需要从qq邮箱获取
 };
 
+const QINIU = {
+  accessKey: 'your_qn_accessKey',
+  secretKey: 'your_qn_secretKey',
+  bucket: 'naice',
+  origin: 'xxxxxx',
+  uploadURL: 'your_qn_uploadURL'
+};
+
 module.exports = {
   APP,
   MONGODB,
-  EMAIL
+  EMAIL,
+  QINIU
 };

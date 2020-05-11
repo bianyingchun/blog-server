@@ -23,6 +23,7 @@
     "mongoose": "^5.9.10",
     "mongoose-paginate": "^5.0.3",
     "nodemailer": "^6.4.6",
+    "qiniu": "^7.3.1",
     "xss": "^1.0.6"
   },
   "devDependencies": {
