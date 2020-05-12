@@ -10,8 +10,8 @@ const {
   editComment,
   likeComment,
 } = require("../controllers/comment");
-const { sendMail } = require("../util/email");
 
+const { sendMail } = require("../util/email");
 const sendMailToAdminAndTargetUser = (comment) => {
   sendMail({
     to: `2093213209@qq.com`,
@@ -19,9 +19,9 @@ const sendMailToAdminAndTargetUser = (comment) => {
     text: `来自 ${comment.author.name} 的留言：${comment.content}`,
     html: `<p> 来自 ${comment.author.name} 的留言：${
       comment.content
-      }</p><br><a href="${
+    }</p><br><a href="${
       comment.permalink || "javascript:;"
-      }" target="_blank">[ 点击查看 ]</a>`,
+    }" target="_blank">[ 点击查看 ]</a>`,
   });
 };
 
@@ -32,7 +32,6 @@ router.post(
     let { post_id, content, author } = ctx.request.body;
     content = xss(content);
     try {
-
       let comment = await addComment(ctx, { post_id, content, author });
       // 测试发送可行，暂时关闭
       // sendMailToAdminAndTargetUser(comment);
@@ -85,6 +84,7 @@ router.post("/edit", async (ctx, next) => {
     throw error;
   }
 });
+
 router.get("/get", async (ctx, next) => {
   try {
     const res = await getComment(ctx.query);

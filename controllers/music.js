@@ -7,12 +7,12 @@ const addMusic = async (ctx, obj) => {
 };
 
 // 删除音乐
-const delectMusic = async (_id) => {
+const deleteMusic = async (_id) => {
     return await Music.findByIdAndRemove(_id);
 };
 
 // 修改音乐数据
-const editeMusic = async (_id, opt) => {
+const editMusic = async (_id, opt) => {
     return await Music.findByIdAndUpdate(_id, opt);
 };
 
@@ -30,6 +30,7 @@ const getMusic = async (opts = {}) => {
     }
     return await Music.find(querys);
 };
+
 // 上传海报
 const uploadPosterCDN = async (file) => {
     // 上传到七牛
@@ -42,8 +43,8 @@ const uploadPosterCDN = async (file) => {
 
 module.exports = {
     addMusic,
-    delectMusic,
-    editeMusic,
+    deleteMusic,
+    editMusic,
     getMusic,
     uploadPosterCDN
 };
