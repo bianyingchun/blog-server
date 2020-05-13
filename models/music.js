@@ -1,6 +1,6 @@
-'use strict';
-// 音乐数据模型
 const mongoose = require('mongoose');
+const mongoosePaginate = require("mongoose-paginate");
+
 const MusicSchema = new mongoose.Schema({
     // 歌曲名称
     title: { type: String },
@@ -19,6 +19,8 @@ const MusicSchema = new mongoose.Schema({
     // 更新时间
     update_at: { type: Date, default: Date.now }
 });
+
+MusicSchema.plugin(mongoosePaginate);
 
 // 时间更新
 MusicSchema.pre('findOneAndUpdate', function (next) {
