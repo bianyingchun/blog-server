@@ -9,9 +9,7 @@ const projectSchema = new mongoose.Schema({
     title: { type: String, required: true },
     // 描述
     desc: { type: String, required: true },
-    // icon图
-    icon: String,
-    view: String,
+    tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
     github: String,
     // 发布日期
     create_at: { type: Date, default: Date.now },

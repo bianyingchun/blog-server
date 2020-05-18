@@ -12,4 +12,4 @@ const verifyParams = (params) => async (ctx, next) => {
   }
   await next();
 };
-module.exports= verifyParams;
+module.exports = verifyParams;

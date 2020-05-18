@@ -2,7 +2,7 @@ const Music = require("../models/music");
 const { upToQiniu, removeTemFile } = require("../util/upload");
 
 // 添加音乐
-const addMusic = async (ctx, obj) => {
+const addMusic = async (obj) => {
   return await new Music(obj).save();
 };
 
@@ -15,10 +15,11 @@ const deleteMusic = async (_id) => {
 const editMusic = async (_id, opt) => {
   return await Music.findByIdAndUpdate(_id, opt);
 };
+const getMusic = async (_id) => Music.findById(_id);
 
 // 获取所有音乐
-const getMusic = async (opts = {}) => {
-  let { state = "", id = "", current_page = 1, page_size = 10 } = opts;
+const getMusicList = async (opts = {}) => {
+  let { state = "", current_page = 1, page_size = 10 } = opts;
   // 查询参数
   const options = {
     page: Number(current_page),
@@ -31,9 +32,7 @@ const getMusic = async (opts = {}) => {
   if (["0", "1", "2"].includes(state)) {
     querys.state = Number(state);
   }
-  if (id) {
-    querys._id = id;
-  }
+
   const musics = await Music.paginate(querys, options);
   let result = {};
   if (musics) {
@@ -64,6 +63,7 @@ module.exports = {
   addMusic,
   deleteMusic,
   editMusic,
+  getMusicList,
   getMusic,
   uploadPosterCDN,
 };

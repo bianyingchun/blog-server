@@ -8,6 +8,7 @@ const {
   deleteMusic,
   editMusic,
   getMusic,
+  getMusicList,
   uploadPosterCDN,
 } = require("../controllers/music");
 // 测试文件上传
@@ -31,10 +32,10 @@ router.post("/upload", upload.single("file"), async (ctx, next) => {
 
 router.post(
   "/add",
-  verifyParmas(["title", "name", "url", "lyrics"]),
+  verifyParmas(["title", "singer", "lyrics"]),
   async (ctx, next) => {
     try {
-      await addMusic(ctx, ctx.request.body);
+      await addMusic(ctx.request.body);
       resSuccess({ ctx, message: "添加音乐成功" });
     } catch (error) {
       error.message = "添加音乐失败";
@@ -71,14 +72,28 @@ router.post("/delete", async (ctx, next) => {
   }
 });
 
-router.get("/get", async (ctx, next) => {
+router.get("/getAll", async (ctx, next) => {
   try {
-    const res = await getMusic(ctx.query);
-    resSuccess({ ctx, message: "获取音乐成功", result: res });
+    const res = await getMusicList(ctx.query);
+    resSuccess({ ctx, message: "获取音乐列表成功", result: res });
   } catch (err) {
-    err.message = "获取音乐失败";
+    err.message = "获取音乐列表失败";
     throw err;
   }
 });
 
+router.get('/get', async (ctx) => {
+  const { id } = ctx.query;
+  if (!id) {
+    return ctx.throw(500, "参数id 缺失");
+  }
+  try {
+    const result = await getMusic(id);
+    resSuccess({ ctx, message: '查询音乐成功', result });
+  } catch (error) {
+    error.message = '查询音乐失败';
+    throw error;
+  }
+
+});
 module.exports = router;

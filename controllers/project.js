@@ -1,7 +1,7 @@
 const Project = require('../models/project');
 
 const addProject = async (opts) => {
-    return await (new Project(opts)).save();
+    return await new Project(opts).save();
 };
 
 const deleteProject = async (id) => {
@@ -20,7 +20,8 @@ const getProjects = async (opts) => {
     const options = {
         sort: { create_at: -1 },
         page: Number(current_page),
-        limit: Number(page_size)
+        limit: Number(page_size),
+        populate: ['tags'],
     };
     const querys = {};
     // 查询

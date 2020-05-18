@@ -12,10 +12,10 @@ const {
 
 router.post(
     "/add",
-    verifyParmas(["title", "desc", "github"]),
+    verifyParmas(["title", "desc", "github", "tags"]),
     async (ctx, next) => {
         try {
-            await addProject(ctx, ctx.request.body);
+            await addProject(ctx.request.body);
             resSuccess({ ctx, message: "添加项目成功" });
         } catch (error) {
             error.message = "添加项目失败";
@@ -53,6 +53,7 @@ router.post("/edit", async (ctx, next) => {
         throw error;
     }
 });
+
 router.get("/get", async (ctx, next) => {
     try {
         const res = await getProjectById(ctx.query.id);
