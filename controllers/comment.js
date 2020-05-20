@@ -56,7 +56,7 @@ const getComment = async (opts = {}) => {
   }
   const querys = {};
   if (state && ["0", "1", "2"].includes(state)) {
-    querys.state = state;
+    querys.state = Number(state);
   }
   if (keyword) {
     const keywordReg = new RegExp(keyword, "i");
