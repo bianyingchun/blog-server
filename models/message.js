@@ -3,7 +3,6 @@ const mongoosePaginate = require("mongoose-paginate");
 
 const messageSchema = new mongoose.Schema({
     content: { type: String, required: true },
-    likes: { type: Number, default: 0 },
     ip: { type: String },
     city: { type: String },
     range: { type: String },
