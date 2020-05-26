@@ -34,4 +34,11 @@ util.md5Pwd = (pwd) => crypto.createHash("md5").update(pwd).digest("hex");
 
 util.getToken = (payload = {}) =>
   jwt.sign(payload, TOKEN.screct, { expiresIn: TOKEN.expiresIn });
+
+util.verifyToken = (token) => {
+  return jwt.verify(token, TOKEN.screct, {
+    complete: true
+  });
+};
+
 module.exports = util;
