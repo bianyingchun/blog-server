@@ -1,6 +1,8 @@
 const util = {};
 const crypto = require("crypto");
 const geoip = require("geoip-lite");
+const jwt = require("jsonwebtoken");
+const { TOKEN } = require("../config");
 util.parseIp = (req) => {
   var ip =
     req.headers["x-forwarded-for"] ||
@@ -29,4 +31,7 @@ util.parseIp = (req) => {
 };
 
 util.md5Pwd = (pwd) => crypto.createHash("md5").update(pwd).digest("hex");
+
+util.getToken = (payload = {}) =>
+  jwt.sign(payload, TOKEN.screct, { expiresIn: TOKEN.expiresIn });
 module.exports = util;
