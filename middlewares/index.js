@@ -2,10 +2,8 @@ const bodyParser = require("koa-bodyparser");
 const helmet = require("koa-helmet");
 const cors = require("koa2-cors");
 const routers = require("../routers");
-const koaJwt = require('koa-jwt');
-const { TOKEN } = require('../config');
+const auth = require('./auth');
 const { resError } = require('../util/resHandle');
-const { verifyToken, getToken } = require('../util');
 const middlewares = (app) => {
 
   // 错误处理中间件
@@ -40,31 +38,7 @@ const middlewares = (app) => {
   app.use(helmet());
 
   app.use(bodyParser());
-  app.use(async (ctx, next) => {
-    if (ctx.header && ctx.header.authorization) {
-      const parts = ctx.header.authorization.split(' ');
-      if (parts.length === 2) {
-        const schema = parts[0];
-        const token = parts[1];
-        // if (schema === 'Bearer') {
-        //   try {
-        //     ctx.userInfo = await verifyToken(token);
-        //   } catch (err) {
-        //     const newToken = getToken();
-        //   }
-        // } else {
-
-        // }
-      }
-    }
-  });
-  app.use(
-    koaJwt({
-      secret: TOKEN.screct
-    }).unless({
-      path: [/^\user\/login /, /^\user\/reg /]
-    })
-  );
+  app.use(auth());
   app.use(routers.routes(), routers.allowedMethods());
   // 全局错误事件监听
   app.on("error", (error) => {

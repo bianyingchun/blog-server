@@ -10,9 +10,9 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   // 签名
-  desc: { type: String, default: "暂无描述" },
+  desc: String,
   // 头像
-  avatar: { type: String },
+  avatar: String,
   // 角色权限
   // 0 ,普通用户 1,管理员
   role: { type: Number, default: 0 },

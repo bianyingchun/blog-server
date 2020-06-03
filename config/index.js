@@ -19,8 +19,12 @@ const QINIU = {
   uploadURL: "qa68vnk5w.bkt.clouddn.com",
 };
 const TOKEN = {
-  screct: "jwtscrect",
-  expiresIn: "4h",
+  screct: "token_jwtscrect",
+  expiresIn: "15m",
+};
+const REFRESH_TOKEN = {
+  screct: "refresh_token_jwtscrect",
+  expiresIn: "7d",
 };
 module.exports = {
   APP,
@@ -28,4 +32,5 @@ module.exports = {
   EMAIL,
   QINIU,
   TOKEN,
+  REFRESH_TOKEN
 };
