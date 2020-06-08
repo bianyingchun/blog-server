@@ -3,7 +3,7 @@ const helmet = require("koa-helmet");
 const cors = require("koa2-cors");
 const routers = require("../routers");
 const auth = require('./auth');
-const { resError } = require('../util/resHandle');
+const { resError, resSuccess } = require('../util/resHandle');
 const middlewares = (app) => {
 
   // 错误处理中间件
@@ -12,9 +12,15 @@ const middlewares = (app) => {
       await next();
     } catch (err) {
       // 响应用户
-      ctx.status = err.statusCode || err.status || 500;
-      resError({ ctx, message: err.message, err });
-      ctx.app.emit("error", err); // 触发应用层级错误事件
+
+      const code = err.statusCode || err.status || 500;
+      if (code === 402) {
+        resSuccess({ ctx, message: 'token 已过期', code });
+      } else {
+        ctx.status = code;
+        resError({ ctx, message: err.message, err, code });
+        ctx.app.emit("error", err); // 触发应用层级错误事件
+      }
     }
   });
   // 跨域

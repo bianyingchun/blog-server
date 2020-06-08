@@ -6,34 +6,20 @@ const verifyParmas = require("../middlewares/verify-params");
 const {
     addMessage,
     deleteMessage,
-    getMessage,
+    getAllMessage,
+    getMessageByPage,
     editMessage,
 } = require("../controllers/message");
 
-const { sendMail } = require("../util/email");
-const sendMailToAdminAndTargetUser = (message) => {
-    sendMail({
-        to: `2093213209@qq.com`,
-        subject: "博客有新的留言",
-        text: `来自 ${message.author.name} 的留言：${message.content}`,
-        html: `<p> 来自 ${message.author.name} 的留言：${
-            message.content
-            }</p><br><a href="${
-            message.permalink || "javascript:;"
-            }" target="_blank">[ 点击查看 ]</a>`,
-    });
-};
 
 router.post(
     "/add",
-    verifyParmas(["content", "author"]),
+    verifyParmas(["content"]),
     async (ctx, next) => {
-        let { content, author } = ctx.request.body;
+        let { content } = ctx.request.body;
         content = xss(content);
         try {
-            let message = await addMessage(ctx, { content, author });
-            // 测试发送可行，暂时关闭
-            // sendMailToAdminAndTargetUser(message);
+            await addMessage({ content });
             resSuccess({ ctx, message: "添加留言成功" });
         } catch (error) {
             error.message = "添加留言失败";
@@ -71,14 +57,23 @@ router.post("/edit", async (ctx, next) => {
     }
 });
 
-router.get("/get", async (ctx, next) => {
+router.get("/all", async (ctx, next) => {
     try {
-        const res = await getMessage(ctx.query);
-        resSuccess({ ctx, message: "获取留言成功", result: res });
+        const res = await getAllMessage();
+        resSuccess({ ctx, message: "获取全部留言成功", result: res });
     } catch (err) {
-        err.message = "获取留言失败";
+        err.message = "获取全部留言失败";
         throw err;
     }
 });
 
+router.get('/list', async (ctx, next) => {
+    try {
+        const res = await getMessageByPage(ctx.query);
+        resSuccess({ ctx, message: "分页获取留言成功", result: res });
+    } catch (err) {
+        err.message = "分页获取留言失败";
+        throw err;
+    }
+});
 module.exports = router;

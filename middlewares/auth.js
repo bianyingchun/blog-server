@@ -1,9 +1,9 @@
 const { verifyToken } = require('../util');
-
 const auth = () => async (ctx, next) => {
-    if (!_jumpAuth(ctx.request.url)) {
-        if (ctx.header && ctx.header.authorization) {
-            const parts = ctx.header.authorization.split(' ');
+    const req = ctx.request;
+    if (!_jumpAuth(req.url)) {
+        if (req.headers && req.headers.authorization) {
+            const parts = req.headers.authorization.trim().split(' ');
             if (parts.length === 2) {
                 const schema = parts[0];
                 const token = parts[1];
@@ -26,5 +26,4 @@ const auth = () => async (ctx, next) => {
 const _jumpAuth = (path) => {
     return ['/user/login', '/user/reg', '/user/refresh'].some(item => item.indexOf(path) !== -1);
 };
-
 module.exports = auth;

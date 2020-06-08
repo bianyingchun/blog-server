@@ -1,22 +1,12 @@
 const Message = require("../models/message");
-const util = require("../util");
 
-const addMessage = (ctx, message) => {
-    const ipInfo = util.parseIp(ctx.request);
-    message = Object.assign(message, ipInfo);
-    message.agent = ctx.header["user-agent"] || message.agent;
-    return Message(message).save();
-};
+const addMessage = (message) => new Message(message).save();
 
-const deleteMessage = (id) => {
-    return Message.findByIdAndRemove(id);
-};
+const deleteMessage = (id) => Message.findByIdAndRemove(id);
 
-const editMessage = async (id, opt) => {
-    return Message.findByIdAndUpdate(id, opt, { new: true });
-};
+const editMessage = async (id, opt) => Message.findByIdAndUpdate(id, opt, { new: true });
 
-const getMessage = async (opts = {}) => {
+const getMessageByPage = async (opts = {}) => {
     let {
         current_page = 1,
         page_size = 10,
@@ -36,9 +26,7 @@ const getMessage = async (opts = {}) => {
     if (keyword) {
         const keywordReg = new RegExp(keyword, "i");
         querys["$or"] = [
-            { content: keywordReg },
-            { "author.name": keywordReg },
-            { "author.email": keywordReg },
+            { content: keywordReg }
         ];
     }
     const messages = await Message.paginate(querys, options);
@@ -56,9 +44,12 @@ const getMessage = async (opts = {}) => {
     }
     return result;
 };
+
+const getAllMessage = () => Message.find({}, { sort: { update_at: -1 } });
 module.exports = {
     addMessage,
     editMessage,
     deleteMessage,
-    getMessage,
+    getMessageByPage,
+    getAllMessage
 };
