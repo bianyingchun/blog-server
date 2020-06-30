@@ -39,7 +39,8 @@ router.post('/edit', async (ctx, next) => {
     }
 });
 
-router.get('/getAll', async (ctx) => {
+// todo  将getALL(不分页) 和 list(全部)的 路由名交换
+router.get('/list', async (ctx) => {
     try {
         const tags = await getTags(ctx.query);
         resSuccess({ ctx, message: "获取所有标签成功", result: tags });
@@ -48,5 +49,6 @@ router.get('/getAll', async (ctx) => {
         throw (error);
     }
 });
+
 
 module.exports = router;

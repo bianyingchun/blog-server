@@ -24,6 +24,9 @@ const auth = () => async (ctx, next) => {
 };
 
 const _jumpAuth = (path) => {
-    return ['/user/login', '/user/reg', '/user/refresh'].some(item => item.indexOf(path) !== -1);
+    const JUMP_ROUTER = ['/user/login', '/user/reg', '/user/refresh',
+        "/article/like", '/article/get', '/article/getAll', '/article/group',
+        "/tag/list"];
+    return JUMP_ROUTER.some(item => item.indexOf(path) !== -1);
 };
 module.exports = auth;

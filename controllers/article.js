@@ -54,12 +54,12 @@ const likeArticle = async (_id) => {
 
 //分页获取
 const getArtilesByPage = async (opts) => {
-    const {
+    let {
         current_page = 1,
         page_size = 50,
         keywords = '',
         state = 1,
-        publish = 1, tags, type, date, hot } = opts;
+        publish = 1, tags, type = -1, date, hot } = opts;
     const options = {
         sort: { create_at: -1 },
         page: Number(current_page),
@@ -77,17 +77,20 @@ const getArtilesByPage = async (opts) => {
         ];
     }
     // 按照state查询
-    if (['1', '2'].includes(state)) {
+    state = Number(state);
+    publish = Number(publish);
+    type = Number(type);
+    if ([1, 2].includes(state)) {
         querys.state = state;
     }
 
     // 按照公开程度查询
-    if (['1', '2'].includes(publish)) {
+    if ([1, 2].includes(publish)) {
         querys.publish = publish;
     }
 
     // 按照类型程度查询
-    if (['1', '2', '3'].includes(type)) {
+    if ([1, 2, 3].includes(type)) {
         querys.type = type;
     }
 
