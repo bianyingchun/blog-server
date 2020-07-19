@@ -90,7 +90,7 @@ router.post("/edit", async (ctx, next) => {
 });
 
 // 根据评论id获取回复
-router.get("/get", async (ctx, next) => {
+router.get("/list", async (ctx, next) => {
   // if (!ctx.query.cid) {
   //   return ctx.throw(500, "参数cid缺失");
   // }

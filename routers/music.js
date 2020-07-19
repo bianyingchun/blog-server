@@ -72,7 +72,7 @@ router.post("/delete", async (ctx, next) => {
   }
 });
 
-router.get("/getAll", async (ctx, next) => {
+router.get("/list", async (ctx, next) => {
   try {
     const res = await getMusicList(ctx.query);
     resSuccess({ ctx, message: "获取音乐列表成功", result: res });
@@ -82,7 +82,7 @@ router.get("/getAll", async (ctx, next) => {
   }
 });
 
-router.get('/get', async (ctx) => {
+router.get('/detail', async (ctx) => {
   const { id } = ctx.query;
   if (!id) {
     return ctx.throw(500, "参数id 缺失");
