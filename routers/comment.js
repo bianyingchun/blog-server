@@ -19,9 +19,9 @@ const sendMailToAdminAndTargetUser = (comment) => {
     text: `来自 ${comment.author.name} 的留言：${comment.content}`,
     html: `<p> 来自 ${comment.author.name} 的留言：${
       comment.content
-    }</p><br><a href="${
+      }</p><br><a href="${
       comment.permalink || "javascript:;"
-    }" target="_blank">[ 点击查看 ]</a>`,
+      }" target="_blank">[ 点击查看 ]</a>`,
   });
 };
 
@@ -85,7 +85,7 @@ router.post("/edit", async (ctx, next) => {
   }
 });
 
-router.get("/get", async (ctx, next) => {
+router.get("/list", async (ctx, next) => {
   try {
     const res = await getComment(ctx.query);
     resSuccess({ ctx, message: "获取评论成功", result: res });

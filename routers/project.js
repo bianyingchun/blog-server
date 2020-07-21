@@ -54,7 +54,7 @@ router.post("/edit", async (ctx, next) => {
     }
 });
 
-router.get("/get", async (ctx, next) => {
+router.get("/detail", async (ctx, next) => {
     try {
         const res = await getProjectById(ctx.query.id);
         resSuccess({ ctx, message: "获取项目成功", result: res });
@@ -63,7 +63,7 @@ router.get("/get", async (ctx, next) => {
         throw err;
     }
 });
-router.get('/getAll', async (ctx) => {
+router.get('/list', async (ctx) => {
     try {
         const res = await getProjects(ctx.query);
         resSuccess({ ctx, message: "获取项目成功", result: res });

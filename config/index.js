@@ -26,6 +26,8 @@ const REFRESH_TOKEN = {
   screct: "refresh_token_jwtscrect",
   expiresIn: "7d",
 };
+
+
 module.exports = {
   APP,
   MONGODB,

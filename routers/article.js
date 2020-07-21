@@ -79,7 +79,7 @@ router.post('/like', async (ctx, next) => {
   }
 });
 // 查
-router.get('/get', async (ctx, next) => {
+router.get('/detail', async (ctx, next) => {
   const { id } = ctx.query;
   if (!id) {
     return ctx.throw(500, '参数id 缺失');
@@ -93,7 +93,7 @@ router.get('/get', async (ctx, next) => {
   }
 });
 // 分页获取文章
-router.get('/getAll', async (ctx, next) => {
+router.get('/list', async (ctx, next) => {
   const options = ctx.query;
   try {
     const articles = await getArtilesByPage(options);
