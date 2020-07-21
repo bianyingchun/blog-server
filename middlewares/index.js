@@ -12,7 +12,6 @@ const middlewares = (app) => {
       await next();
     } catch (err) {
       // 响应用户
-
       const code = err.statusCode || err.status || 500;
       if (code === 402) {
         resSuccess({ ctx, message: 'token 已过期', code });

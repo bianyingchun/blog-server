@@ -1,50 +1,57 @@
 const Router = require("koa-router");
 const router = new Router();
-const { resSuccess } = require('../util/resHandle');
-const { md5Pwd, genToken, verifyRefreshToken, genRefreshToken } = require('../util/');
-const verifyParmas = require("../middlewares/verify-params");
+const { resSuccess } = require("../util/resHandle");
 const {
-  addUser,
-  findUser,
-  getUserInfo
-} = require('../controllers/user');
+  md5Pwd,
+  genToken,
+  verifyRefreshToken,
+  genRefreshToken,
+} = require("../util/");
+const verifyParmas = require("../middlewares/verify-params");
+const { addUser, findUser, getUserInfo } = require("../controllers/user");
 // 注册
-router.post("/reg",
-  verifyParmas(['username', 'password']),
+router.post(
+  "/reg",
+  verifyParmas(["username", "password"]),
   async (ctx, next) => {
     try {
       let { username, password } = ctx.request.body;
       let user = await findUser(username);
       if (user) {
-        return ctx.throw(500, '用户已存在');
+        return ctx.throw(500, "用户已存在");
       }
       password = md5Pwd(password);
       let userInfo = { username, password };
       user = await addUser(userInfo);
       resSuccess({
-        ctx, message: "用户注册成功", result: {
+        ctx,
+        message: "用户注册成功",
+        result: {
           refreshtoken: genRefreshToken(user._id),
-          token: genToken(user._id)
-        }
+          token: genToken(user._id),
+        },
       });
     } catch (error) {
-      error.message = '用户注册失败';
+      error.message = "用户注册失败";
       throw error;
     }
-  });
+  }
+);
 
 //登录
-router.post('/login', verifyParmas(['username', 'password']),
+router.post(
+  "/login",
+  verifyParmas(["username", "password"]),
   async (ctx, next) => {
     try {
       let { username, password } = ctx.request.body;
       const user = await findUser(username);
       if (!user) {
-        return ctx.throw(500, '该用户不存在');
+        return ctx.throw(500, "该用户不存在");
       }
       password = md5Pwd(password);
       if (password !== user.password) {
-        return ctx.throw(500, '密码错误');
+        return ctx.throw(500, "密码错误");
       }
       // const userInfo = { username, password, id: user.id };
       resSuccess({
@@ -52,16 +59,17 @@ router.post('/login', verifyParmas(['username', 'password']),
         message: "登录成功",
         result: {
           refreshtoken: genRefreshToken(user._id),
-          token: genToken(user._id)
-        }
+          token: genToken(user._id),
+        },
       });
     } catch (error) {
-      error.message = '用户注册失败';
+      error.message = "用户注册失败";
       throw error;
     }
-  });
+  }
+);
 
-router.get('/userInfo', async (ctx, next) => {
+router.get("/userInfo", async (ctx, next) => {
   const { id } = ctx.request.body;
   if (!id) {
     return ctx.throw(500, "参数id缺失");
@@ -69,30 +77,34 @@ router.get('/userInfo', async (ctx, next) => {
   try {
     const userInfo = await getUserInfo(id);
     resSuccess({
-      ctx, message: '获取用户信息成功',
-      result: userInfo
+      ctx,
+      message: "获取用户信息成功",
+      result: userInfo,
     });
   } catch (error) {
-    error.message = '获取用户信息失败';
+    error.message = "获取用户信息失败";
     throw error;
   }
 });
 
 // 刷新token
-router.post('/refresh', async (ctx) => {
+router.post("/refresh", async (ctx) => {
   try {
-    const { refreshtoken } = ctx.request.body;
+    let { refreshtoken } = ctx.request.body;
     const decoded = verifyRefreshToken(refreshtoken);
+    refreshtoken = genRefreshToken(decoded.data);
     let token = genToken(decoded.data);
     resSuccess({
       ctx,
-      message: '刷新token成功',
+      message: "刷新token成功",
       result: {
-        token
-      }
+        token,
+        refreshtoken:refreshtoken
+      },
     });
   } catch (err) {
-    ctx.throw(401, '请重新登录');
+    ctx.throw(401, "请重新登录");
   }
 });
+
 module.exports = router;
