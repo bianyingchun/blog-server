@@ -59,7 +59,7 @@ const getArtilesByPage = async (opts) => {
         page_size = 50,
         keywords = '',
         state = 1,
-        publish = 1, tags, type = -1, date, hot } = opts;
+        publish = 1, tag, type = -1, date, hot } = opts;
     const options = {
         sort: { create_at: -1 },
         page: Number(current_page),
@@ -112,8 +112,8 @@ const getArtilesByPage = async (opts) => {
             };
         }
     }
-    if (tags) {
-        querys.tags = tags;
+    if (tag) {
+        querys.tags = { $all: [tag] };
     }
     const result = await Article.paginate(querys, options);
     if (result) {
@@ -139,7 +139,11 @@ const getArticlesByGroup = async () => {
                 year: { $year: '$create_at' },
                 month: { $month: '$create_at' },
                 title: 1,
-                create_at: 1
+                create_at: 1,
+                thumb: 1,
+                desc: 1,
+                meta: 1,
+                type: 1
             }
         },
         {
@@ -152,7 +156,11 @@ const getArticlesByGroup = async () => {
                     $push: {
                         title: '$title',
                         _id: '$_id',
-                        create_at: '$create_at'
+                        create_at: '$create_at',
+                        thumb: '$thumb',
+                        desc: '$desc',
+                        meta: '$meta',
+                        type: '$type'
                     }
                 }
             }
@@ -174,7 +182,6 @@ const getArticlesByGroup = async () => {
     else {
         return [];
     }
-
 };
 module.exports = {
     addArticle,

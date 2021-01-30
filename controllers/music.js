@@ -1,6 +1,8 @@
 const Music = require("../models/music");
 const { upToQiniu, removeTemFile } = require("../util/upload");
-
+const { lyric, likelist, login_cellphone, playlist_detail, login_status } = require('../plugins/music');
+const { MUSIC_ACCOUNT } = require('../config');
+let cookie = null;
 // 添加音乐
 const addMusic = async (obj) => {
   return await new Music(obj).save();
@@ -59,6 +61,78 @@ const uploadPosterCDN = async (file) => {
   return qiniu;
 };
 
+const getLikeList = async () => {
+  const isLogined = await getLoginStatus();
+  if (!isLogined) {
+    try {
+      await loginByPhone(MUSIC_ACCOUNT.phone, MUSIC_ACCOUNT.password);
+    } catch (err) {
+      console.log('登录失败', err);
+    }
+  }
+  const result = await likelist({
+    uid: MUSIC_ACCOUNT.uid,
+    cookie
+  });
+  if (result.status === 200) {
+    return result.body;
+  }
+  throw result.body;
+};
+const getLyric = async (id) => {
+  const result = await lyric({
+    id,
+    cookie
+  });
+  if (result.status === 200) {
+    return result.body;
+  }
+  throw result.body;
+};
+
+const getLoginStatus = async () => {
+  const result = await login_status({
+    cookie,
+  });
+  if (result.status === 200) {
+    cookie = result.cookie;
+  }
+  return result.stauts === 200;
+};
+
+const loginByPhone = async (phone, password) => {
+  const result = await login_cellphone({
+    phone,
+    password
+  });
+
+  if (result.status === 200) {
+    cookie = result.body.cookie;
+    return result.body;
+  }
+  throw result.body;
+};
+
+const getPlayList = async (id) => {
+  const isLogined = await getLoginStatus();
+  if (!isLogined) {
+    try {
+      await loginByPhone(MUSIC_ACCOUNT.phone, MUSIC_ACCOUNT.password);
+    } catch (err) {
+      console.log('登录失败', err);
+    }
+  }
+  const result = await playlist_detail({
+    id,
+    cookie
+  });
+  if (result.status === 200) {
+    return result.body;
+  }
+  throw result.body;
+};
+
+
 module.exports = {
   addMusic,
   deleteMusic,
@@ -66,4 +140,9 @@ module.exports = {
   getMusicList,
   getMusic,
   uploadPosterCDN,
+  getLyric,
+  getLikeList,
+  loginByPhone,
+  getPlayList,
+  getLoginStatus
 };

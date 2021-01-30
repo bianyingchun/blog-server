@@ -27,6 +27,11 @@ const REFRESH_TOKEN = {
   expiresIn: "7d",
 };
 
+const MUSIC_ACCOUNT = {
+  phone: '18255444265',
+  password: 'bb09237544',
+  uid: 391264014
+};
 
 module.exports = {
   APP,
@@ -34,5 +39,7 @@ module.exports = {
   EMAIL,
   QINIU,
   TOKEN,
-  REFRESH_TOKEN
+  REFRESH_TOKEN,
+  MUSIC_ACCOUNT
+
 };

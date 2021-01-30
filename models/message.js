@@ -7,6 +7,10 @@ const messageSchema = new mongoose.Schema({
         type: Number,
         default: 1,
     },
+    style: {
+        fontsize: String,
+        color: String
+    },
     create_at: { type: Date, default: Date.now },
     update_at: { type: Date, default: Date.now },
 });

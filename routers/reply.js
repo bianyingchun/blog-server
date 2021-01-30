@@ -67,8 +67,8 @@ router.post("/like", async (ctx, next) => {
     return ctx.throw(500, "参数id缺失");
   }
   try {
-    await likeReply(id);
-    resSuccess({ ctx, message: "喜欢回复成功" });
+    const newItem = await likeReply(id);
+    resSuccess({ ctx, message: "喜欢回复成功", result: newItem });
   } catch (error) {
     error.message = "喜欢回复失败";
     throw error;

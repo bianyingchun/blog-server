@@ -44,8 +44,8 @@ const getMessageByPage = async (opts = {}) => {
     }
     return result;
 };
+const getAllMessage = () => Message.find({});
 
-const getAllMessage = () => Message.find({}, { sort: { update_at: -1 } });
 module.exports = {
     addMessage,
     editMessage,

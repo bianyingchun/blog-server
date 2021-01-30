@@ -11,6 +11,7 @@ const projectSchema = new mongoose.Schema({
     desc: { type: String, required: true },
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
     github: String,
+    url: String,
     // 发布日期
     create_at: { type: Date, default: Date.now },
     // 最后修改日期

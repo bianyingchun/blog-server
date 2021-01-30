@@ -3,7 +3,8 @@ const mongoosePaginate = require("mongoose-paginate");
 
 const replySchema = new mongoose.Schema({
   // 评论所在的文章_id
-  // TODO 占坑，post_id存在似乎没必要，只要依据cid，就可以得到评论回复列表，评论的post_id与文章关联，这样就可得到每篇文章的每条评论回复了，kkkk
+  // TODO 占坑，post_id存在似乎没必要，只要依据cid，就可以得到评论回复列表，
+  // 评论的post_id与文章关联，这样就可得到每篇文章的每条评论回复了，kkkk
   post_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "article",

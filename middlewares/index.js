@@ -1,11 +1,12 @@
 const bodyParser = require("koa-bodyparser");
+const path = require('path');
 const helmet = require("koa-helmet");
 const cors = require("koa2-cors");
 const routers = require("../routers");
 const auth = require('./auth');
+const static = require('koa-static');
 const { resError, resSuccess } = require('../util/resHandle');
 const middlewares = (app) => {
-
   // 错误处理中间件
   app.use(async (ctx, next) => {
     try {
@@ -41,7 +42,7 @@ const middlewares = (app) => {
     })
   );
   app.use(helmet());
-
+  app.use(static(path.join(__dirname, '../public')));
   app.use(bodyParser());
   app.use(auth());
   app.use(routers.routes(), routers.allowedMethods());

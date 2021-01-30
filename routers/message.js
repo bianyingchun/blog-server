@@ -16,11 +16,11 @@ router.post(
     "/add",
     verifyParmas(["content"]),
     async (ctx, next) => {
-        let { content } = ctx.request.body;
+        let { content, style = {} } = ctx.request.body;
         content = xss(content);
         try {
-            await addMessage({ content });
-            resSuccess({ ctx, message: "添加留言成功" });
+            const message = await addMessage({ content, style });
+            resSuccess({ ctx, message: "添加留言成功", result: message });
         } catch (error) {
             error.message = "添加留言失败";
             throw error;

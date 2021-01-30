@@ -10,7 +10,7 @@ const {
   editComment,
   likeComment,
 } = require("../controllers/comment");
-
+const { getReply } = require('../controllers/reply');
 const { sendMail } = require("../util/email");
 const sendMailToAdminAndTargetUser = (comment) => {
   sendMail({
@@ -35,7 +35,7 @@ router.post(
       let comment = await addComment(ctx, { post_id, content, author });
       // 测试发送可行，暂时关闭
       // sendMailToAdminAndTargetUser(comment);
-      resSuccess({ ctx, message: "添加评论成功" });
+      resSuccess({ ctx, message: "添加评论成功", result: comment });
     } catch (error) {
       error.message = "添加评论失败";
       throw error;
@@ -63,8 +63,8 @@ router.post("/like", async (ctx, next) => {
     return ctx.throw(500, "参数id缺失");
   }
   try {
-    await likeComment(id);
-    resSuccess({ ctx, message: "喜欢评论成功" });
+    const newItem = await likeComment(id);
+    resSuccess({ ctx, message: "喜欢评论成功", result: newItem });
   } catch (error) {
     error.message = "喜欢评论失败";
     throw error;
@@ -95,4 +95,29 @@ router.get("/list", async (ctx, next) => {
   }
 });
 
+router.get('/list/withreply', async (ctx, next) => {
+  try {
+    const { post_id } = ctx.query;
+    if (!post_id) {
+      return ctx.throw(500, "参数 post_id 缺失");
+    }
+    const commentResult = await getComment(ctx.request.query);
+    const { pagination, list } = commentResult;
+    const getReplyTasks = list.map(item => getReply({ cid: item._id }));
+    const replyResult = await Promise.all(getReplyTasks);
+    const result = {
+      list: [],
+      pagination
+    };
+    result.list = list.map((item, index) => {
+      item = item.toObject();
+      item.replies = replyResult[index];
+      return item;
+    });
+    resSuccess({ ctx, message: "获取评论成功", result: result });
+  } catch (err) {
+    err.message = "获取评论列表失败";
+    throw err;
+  }
+});
 module.exports = router;

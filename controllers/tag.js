@@ -23,24 +23,25 @@ const getTags = async (query = {}) => {
         querys.name = new RegExp(keyword, 'i');
     }
     let result = {};
-    const res = await Tag.paginate(querys, options);
+    let res = await Tag.paginate(querys, options);
     if (res) {
+        res = JSON.parse(JSON.stringify(res));
         let $match = {};
         // 前台请求时，只有已经发布的和公开
         // if(!authIsVerified(ctx.request)) $match = { state: 1, publish: 1 }
         const article = await Article.aggregate([
             { $match },
-            { $unwind: '$tag' },
+            { $unwind: '$tags' },
             {
                 $group: {
-                    _id: '$tag',
+                    _id: '$tags',
                     num_tutorial: { $sum: 1 }
                 }
             }
         ]);
         if (article) {
             res.docs.forEach(t => {
-                const finded = article.find(c => String(c.__id) === String(t._id));
+                const finded = article.find(c => String(c._id) === String(t._id));
                 t.count = finded ? finded.num_tutorial : 0;
             });
             result = {

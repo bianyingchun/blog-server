@@ -34,7 +34,7 @@ const likeReply = async (id) => {
 };
 
 const getReply = async (opts = {}) => {
-    let { cid, sort = -1, current_page = 1, page_size = 10, keyword = '', state } = opts;
+    let { cid, sort = -1, current_page = 1, page_size = 3, keyword = '', state } = opts;
     let result = {};
     const options = {
         page: Number(current_page),
