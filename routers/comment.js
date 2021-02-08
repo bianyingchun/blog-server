@@ -16,23 +16,21 @@ const sendMailToAdminAndTargetUser = (comment) => {
   sendMail({
     to: `2093213209@qq.com`,
     subject: "博客有新的留言",
-    text: `来自 ${comment.author.name} 的留言：${comment.content}`,
-    html: `<p> 来自 ${comment.author.name} 的留言：${
-      comment.content
-      }</p><br><a href="${
-      comment.permalink || "javascript:;"
+    text: `来自 ${comment.from.name} 的留言：${comment.content}`,
+    html: `<p> 来自 ${comment.from.name} 的留言：${comment.content
+      }</p><br><a href="${comment.permalink || "javascript:;"
       }" target="_blank">[ 点击查看 ]</a>`,
   });
 };
 
 router.post(
   "/add",
-  verifyParmas(["post_id", "content", "author"]),
+  verifyParmas(["post_id", "content", "from"]),
   async (ctx, next) => {
-    let { post_id, content, author } = ctx.request.body;
+    let { post_id, content, from } = ctx.request.body;
     content = xss(content);
     try {
-      let comment = await addComment(ctx, { post_id, content, author });
+      let comment = await addComment(ctx, { post_id, content, from });
       // 测试发送可行，暂时关闭
       // sendMailToAdminAndTargetUser(comment);
       resSuccess({ ctx, message: "添加评论成功", result: comment });
@@ -46,7 +44,7 @@ router.post(
 router.post("/delete", async (ctx, next) => {
   const { id } = ctx.request.body;
   if (!id) {
-    return ctx.throw(500, "参数id缺失");
+    return ctx.throw(400, "参数id缺失");
   }
   try {
     await deleteComment(id);
@@ -60,7 +58,7 @@ router.post("/delete", async (ctx, next) => {
 router.post("/like", async (ctx, next) => {
   const { id } = ctx.request.body;
   if (!id) {
-    return ctx.throw(500, "参数id缺失");
+    return ctx.throw(400, "参数id缺失");
   }
   try {
     const newItem = await likeComment(id);
@@ -74,7 +72,7 @@ router.post("/like", async (ctx, next) => {
 router.post("/edit", async (ctx, next) => {
   const { id, info } = ctx.request.body;
   if (!id) {
-    return ctx.throw(500, "参数id 缺失");
+    return ctx.throw(400, "参数id 缺失");
   }
   try {
     await editComment(id, info);
@@ -99,7 +97,7 @@ router.get('/list/withreply', async (ctx, next) => {
   try {
     const { post_id } = ctx.query;
     if (!post_id) {
-      return ctx.throw(500, "参数 post_id 缺失");
+      return ctx.throw(400, "参数 post_id 缺失");
     }
     const commentResult = await getComment(ctx.request.query);
     const { pagination, list } = commentResult;
@@ -120,4 +118,5 @@ router.get('/list/withreply', async (ctx, next) => {
     throw err;
   }
 });
+
 module.exports = router;

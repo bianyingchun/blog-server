@@ -18,7 +18,7 @@ router.post(
       let { username, password } = ctx.request.body;
       let user = await findUser(username);
       if (user) {
-        return ctx.throw(500, "用户已存在");
+        return ctx.throw(400, "用户已存在");
       }
       password = md5Pwd(password);
       let userInfo = { username, password };
@@ -47,11 +47,11 @@ router.post(
       let { username, password } = ctx.request.body;
       const user = await findUser(username);
       if (!user) {
-        return ctx.throw(500, "该用户不存在");
+        return ctx.throw(400, "该用户不存在");
       }
       password = md5Pwd(password);
       if (password !== user.password) {
-        return ctx.throw(500, "密码错误");
+        return ctx.throw(400, "密码错误");
       }
       // const userInfo = { username, password, id: user.id };
       resSuccess({
@@ -63,16 +63,16 @@ router.post(
         },
       });
     } catch (error) {
-      error.message = "用户注册失败";
+      error.message = "用户登录失败";
       throw error;
     }
   }
 );
 
-router.get("/userInfo", async (ctx, next) => {
-  const { id } = ctx.request.body;
+router.get("/info", async (ctx, next) => {
+  const { id = ctx.userId } = ctx.request.query;
   if (!id) {
-    return ctx.throw(500, "参数id缺失");
+    return ctx.throw(400, "参数id缺失");
   }
   try {
     const userInfo = await getUserInfo(id);
@@ -99,7 +99,7 @@ router.post("/refresh", async (ctx) => {
       message: "刷新token成功",
       result: {
         token,
-        refreshtoken:refreshtoken
+        refreshtoken: refreshtoken
       },
     });
   } catch (err) {

@@ -1,16 +1,9 @@
 const Tag = require('../models/tag');
 const Article = require('../models/article');
 
-const addTag = async (opt) => {
-    const name = opt.name;
-    const res = await Tag.find({ name });
-    if (res && res.length) {
-        throw new Error('标签已存在');
-    } else {
-        const tag = await (new Tag(opt)).save();
-        return tag;
-    }
-};
+const existTag = (query) => Tag.exists(query);
+
+const addTag = (tag) => (new Tag(tag)).save();
 
 const getTags = async (query = {}) => {
     const { current_page = 1, page_size = 50, keyword = '' } = query;
@@ -69,6 +62,7 @@ const deleteTag = async (_id) => {
 
 module.exports = {
     addTag,
+    existTag,
     getTags,
     editTag,
     deleteTag

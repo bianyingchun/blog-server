@@ -16,7 +16,7 @@ const getProjectById = async (id) => {
 };
 
 const getProjects = async (opts) => {
-  const { current_page = 1, page_size = 1 } = opts;
+  const { current_page = 1, page_size = 20 } = opts;
   const options = {
     sort: { create_at: -1 },
     page: Number(current_page),

@@ -2,37 +2,17 @@ const Router = require("koa-router");
 const router = new Router();
 const { resSuccess } = require("../util/resHandle");
 const verifyParmas = require("../middlewares/verify-params");
-const { upload } = require("../util/upload");
 const {
   addMusic,
   deleteMusic,
   editMusic,
   getMusic,
   getMusicList,
-  uploadPosterCDN,
   getLikeList,
   getLyric,
   loginByPhone,
   getPlayList
 } = require("../controllers/music");
-// 测试文件上传
-// router.post("/upload", upload.single("file"), async (ctx, next) => {
-//     resSuccess({
-//         ctx,
-//         message: "上传成功",
-//         result: { file: ctx.req.file },
-//     });
-// });
-router.post("/upload", upload.single("file"), async (ctx, next) => {
-  const file = ctx.req.file;
-  try {
-    const res = await uploadPosterCDN(file);
-    resSuccess({ ctx, message: "歌曲海报上传成功", result: res.key });
-  } catch (err) {
-    err.message = "歌曲海报上传失败";
-    throw err;
-  }
-});
 
 router.post(
   "/add",
@@ -51,7 +31,7 @@ router.post(
 router.post("/edit", async (ctx, next) => {
   const { id, info } = ctx.request.body;
   if (!id) {
-    return ctx.throw(500, "参数id 缺失");
+    return ctx.throw(400, "参数id 缺失");
   }
   try {
     await editMusic(id, info);

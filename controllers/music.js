@@ -1,5 +1,5 @@
 const Music = require("../models/music");
-const { upToQiniu, removeTemFile } = require("../util/upload");
+const { upToQiniu, removeTemFile, } = require("../util/upload");
 const { lyric, likelist, login_cellphone, playlist_detail, login_status } = require('../plugins/music');
 const { MUSIC_ACCOUNT } = require('../config');
 let cookie = null;
@@ -30,7 +30,6 @@ const getMusicList = async (opts = {}) => {
 
   const querys = {};
   // 审核状态查询
-  console.log("审核状态", typeof state);
   if (["0", "1", "2"].includes(state)) {
     querys.state = Number(state);
   }

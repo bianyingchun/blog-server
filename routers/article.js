@@ -15,6 +15,7 @@ const {
 router.post("/add", async (ctx, next) => {
   try {
     let article = await addArticle(ctx.request.body);
+    console.log('add -article');
     resSuccess({ ctx, message: '添加文章成功', result: article });
   } catch (error) {
     error.message = '文章添加失败';
@@ -25,7 +26,7 @@ router.post("/add", async (ctx, next) => {
 router.post('/delete', async (ctx, next) => {
   const { id } = ctx.request.body;
   if (!id) {
-    return ctx.throw(500, '参数id缺失');
+    return ctx.throw(400, '参数id缺失');
   }
   try {
     await deleteArticle(id);
@@ -40,7 +41,7 @@ router.post('/delete', async (ctx, next) => {
 router.post('/edit', async (ctx, next) => {
   const { id, info } = ctx.request.body;
   if (!id) {
-    return ctx.throw(500, '参数id缺失');
+    return ctx.throw(400, '参数id缺失');
   }
   try {
     await editArticle(id, info);
@@ -54,7 +55,7 @@ router.post('/edit', async (ctx, next) => {
 router.post('/edit_status', async (ctx, next) => {
   const { id, status } = ctx.request.body;
   if (!id) {
-    return ctx.throw(500, '参数id缺失');
+    return ctx.throw(400, '参数id缺失');
   }
   try {
     await changeArticleStatus(id, status);
@@ -68,7 +69,7 @@ router.post('/edit_status', async (ctx, next) => {
 router.post('/like', async (ctx, next) => {
   const { id } = ctx.request.body;
   if (!id) {
-    return ctx.throw(500, '参数id缺失');
+    return ctx.throw(400, '参数id缺失');
   }
   try {
     await likeArticle(id);
@@ -82,7 +83,7 @@ router.post('/like', async (ctx, next) => {
 router.get('/detail', async (ctx, next) => {
   const { id } = ctx.query;
   if (!id) {
-    return ctx.throw(500, '参数id 缺失');
+    return ctx.throw(400, '参数id 缺失');
   }
   try {
     const result = await getArticleById(id);

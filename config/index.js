@@ -1,5 +1,7 @@
 const APP = {
   PORT: 3030,
+  URL: 'http://localhost:3000',
+  STATIC_PATH: '/public'
 };
 
 const MONGODB = {

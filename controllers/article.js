@@ -56,7 +56,7 @@ const likeArticle = async (_id) => {
 const getArtilesByPage = async (opts) => {
     let {
         current_page = 1,
-        page_size = 50,
+        page_size = 10,
         keywords = '',
         state = 1,
         publish = 1, tag, type = -1, date, hot } = opts;
@@ -65,7 +65,10 @@ const getArtilesByPage = async (opts) => {
         page: Number(current_page),
         limit: Number(page_size),
         populate: ['tags'],
-        select: '-content'
+        select: {
+            'content': 0,
+            'editContent': 0
+        }
     };
     const querys = {};
     if (keywords) {

@@ -3,9 +3,12 @@ const path = require("path");
 const qiniu = require('qiniu');
 const myConfig = require('../config');
 const fs = require('fs');
-const tempDir = path.join(__dirname, "../public/temp");
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    const type = file.mimetype.split('/')[0];
+    const tempDir = path.join(__dirname, "../public", type);
+    mkdirsSync(tempDir);
     cb(null, tempDir);
   },
   filename: (req, file, cb) => {
@@ -56,6 +59,12 @@ const upToQiniu = (filePath, key) => {
 // 删除文件
 const removeTemFile = (filePath) => {
   fs.unlinkSync(filePath);
+};
+
+const mkdirsSync = directory => {
+  if (!fs.existsSync(directory)) {
+    fs.mkdirSync(directory);
+  }
 };
 
 module.exports = {

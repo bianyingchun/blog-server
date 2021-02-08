@@ -35,9 +35,12 @@ const articleSchema = new mongoose.Schema({
     },
     thumb: String,
     // 文章分类
+    // Original: 0, // 原创
+    // Reprint: 1, // 转载
+    // Hybrid: 2 // 混合
     type: {
         type: Number,
-        default: 1
+        default: 0
     },
     create_at: {
         type: Date,
@@ -47,6 +50,7 @@ const articleSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+
     meta: {
         views: { type: Number, default: 0 },
         likes: { type: Number, default: 0 },

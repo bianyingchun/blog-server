@@ -1,11 +1,13 @@
 const Router = require('koa-router');
 const router = new Router();
 const { resSuccess } = require('../util/resHandle');
-const { addTag, getTags, editTag, deleteTag } = require('../controllers/tag');
+const { addTag, getTags, editTag, deleteTag, existTag } = require('../controllers/tag');
 
 router.post('/add', async (ctx, next) => {
     const { name, desc = '' } = ctx.request.body;
     try {
+        const isExist = await existTag({ name });
+        if (isExist) return ctx.throw(400, '标签已存在');
         const tag = await addTag({ name, desc });
         resSuccess({ ctx, message: '添加标签成功', result: tag });
     } catch (error) {
@@ -28,7 +30,7 @@ router.post('/delete', async (ctx, next) => {
 router.post('/edit', async (ctx, next) => {
     const { id, name, desc } = ctx.request.body;
     if (!id) {
-        return ctx.throw(500, '参数id缺失');
+        return ctx.throw(400, '参数id缺失');
     }
     try {
         await editTag({ id, name, desc });

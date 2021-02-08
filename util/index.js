@@ -39,9 +39,7 @@ const _genToken = (data, config) => {
   return jwt.sign(payload, config.screct, { expiresIn: config.expiresIn });
 };
 const _verifyToken = (token, config) => {
-  return jwt.verify(token, config.screct, {
-    complete: true
-  });
+  return jwt.verify(token, config.screct);
 };
 
 util.genToken = (data) => _genToken(data, TOKEN);

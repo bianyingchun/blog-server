@@ -50,7 +50,7 @@ router.post(
 router.post("/delete", async (ctx, next) => {
   const { id } = ctx.request.body;
   if (!id) {
-    return ctx.throw(500, "参数id缺失");
+    return ctx.throw(400, "参数id缺失");
   }
   try {
     await deleteReply(id);
@@ -64,7 +64,7 @@ router.post("/delete", async (ctx, next) => {
 router.post("/like", async (ctx, next) => {
   const { id } = ctx.request.body;
   if (!id) {
-    return ctx.throw(500, "参数id缺失");
+    return ctx.throw(400, "参数id缺失");
   }
   try {
     const newItem = await likeReply(id);
@@ -78,7 +78,7 @@ router.post("/like", async (ctx, next) => {
 router.post("/edit", async (ctx, next) => {
   const { id, info } = ctx.request.body;
   if (!id) {
-    return ctx.throw(500, "参数id缺失");
+    return ctx.throw(400, "参数id缺失");
   }
   try {
     await editReply(id, info);
@@ -92,7 +92,7 @@ router.post("/edit", async (ctx, next) => {
 // 根据评论id获取回复
 router.get("/list", async (ctx, next) => {
   // if (!ctx.query.cid) {
-  //   return ctx.throw(500, "参数cid缺失");
+  //   return ctx.throw(400, "参数cid缺失");
   // }
   try {
     const res = await getReply(ctx.query);
@@ -106,7 +106,7 @@ router.get("/list", async (ctx, next) => {
 router.post("/status", async (ctx, next) => {
   const { id, state } = ctx.request.body;
   if (!id) {
-    return ctx.throw(500, "参数id 缺失");
+    return ctx.throw(400, "参数id 缺失");
   }
   try {
     await changeReplyStatus(id, state);

@@ -17,7 +17,7 @@ const commentSchema = new mongoose.Schema({
   range: { type: String },
   country: { type: String },
   agent: { type: String },
-  author: {
+  from: {
     gravatar: { type: String, default: "" },
     name: { type: String, required: true },
     email: { type: String, required: true },

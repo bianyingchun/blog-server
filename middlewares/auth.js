@@ -1,6 +1,7 @@
 const { verifyToken } = require("../util");
 const auth = () => async (ctx, next) => {
   const req = ctx.request;
+  let access = false;
   if (!_jumpAuth(req.url)) {
     if (req.headers && req.headers.authorization) {
       const parts = req.headers.authorization.trim().split(" ");
@@ -9,17 +10,22 @@ const auth = () => async (ctx, next) => {
         const token = parts[1];
         if (schema === "Bearer") {
           try {
-            ctx.userId = await verifyToken(token);
-            return await next();
+            const decode = await verifyToken(token);
+            ctx.userId = decode.data;
+            access = true;
           } catch (err) {
-            ctx.throw(402, "token 已过期");
+            return ctx.throw(402, "token 已过期");
           }
         }
       }
     }
-    ctx.throw(403, "拒绝访问");
   } else {
+    access = true;
+  }
+  if (access) {
     await next();
+  } else {
+    ctx.throw(403, "拒绝访问");
   }
 };
 
@@ -28,6 +34,7 @@ const _jumpAuth = (path) => {
     '/search/hot',
     '/message/add',
     '/message/all',
+    "/project/list",
     '/user/login', '/user/reg', '/user/refresh',
     "/article/like", '/article/detail', '/article/list', '/article/group',
     "/tag/list", '/wallpaper/list',

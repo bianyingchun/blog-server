@@ -27,7 +27,7 @@ router.post(
 router.post("/delete", async (ctx, next) => {
     const { id } = ctx.request.body;
     if (!id) {
-        return ctx.throw(500, "参数id缺失");
+        return ctx.throw(400, "参数id缺失");
     }
     try {
         await deleteProject(id);
@@ -43,7 +43,7 @@ router.post("/delete", async (ctx, next) => {
 router.post("/edit", async (ctx, next) => {
     const { id, info } = ctx.request.body;
     if (!id) {
-        return ctx.throw(500, "参数id 缺失");
+        return ctx.throw(400, "参数id 缺失");
     }
     try {
         await editProject(id, info);

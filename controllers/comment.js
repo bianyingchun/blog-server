@@ -62,8 +62,8 @@ const getComment = async (opts = {}) => {
     const keywordReg = new RegExp(keyword, "i");
     querys["$or"] = [
       { content: keywordReg },
-      { "author.name": keywordReg },
-      { "author.email": keywordReg },
+      { "from.name": keywordReg },
+      { "from.email": keywordReg },
     ];
   }
   if (post_id !== undefined) {

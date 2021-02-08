@@ -8,9 +8,9 @@ const addReply = async (ctx, reply) => {
     reply.agent = ctx.header['user-agent'] || reply.agent;
     // 发布评论回复
     const res = await (new Reply(reply)).save();
-    // let permalink = 'https://blog.naice.me';
+    // let permalink = 'https://blog.bianyc.xyz';
     // if (reply.post_id) {
-    //     permalink = `https://blog.naice.me/article/${reply.post_id}`;
+    //     permalink = `https://blog.bianyc.xyz/article/${reply.post_id}`;
     // }
     // 让原来评论数+1
     const comment = await Comment.findByIdAndUpdate(reply.cid, { $inc: { 'reply': 1 } }, { new: true });
