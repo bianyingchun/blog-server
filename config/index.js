@@ -14,8 +14,8 @@ const EMAIL = {
 };
 
 const QINIU = {
-  accessKey: "dQf57N3J2HuG3TR9MtbEu--MXYJRYLxXJjppVjxy",
-  secretKey: "Xq77ZZXNCy6Be4efpsZ9XM2tLVXl7D5T-aPCrAVa",
+  accessKey: "xxxx",
+  secretKey: "xxxx",
   bucket: "bianyc",
   origin: "xxxxxx",
   uploadURL: "qa68vnk5w.bkt.clouddn.com",
@@ -30,9 +30,9 @@ const REFRESH_TOKEN = {
 };
 
 const MUSIC_ACCOUNT = {
-  phone: '18255444265',
-  password: 'bb09237544',
-  uid: 391264014
+  phone: 'xxxx',
+  password: 'xxxx',
+  uid: 'xxxx'
 };
 
 module.exports = {
